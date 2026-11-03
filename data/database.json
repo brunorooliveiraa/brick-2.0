@@ -1,0 +1,415 @@
+{
+  "config": {
+    "nomeNegocio": "Brique Pro - Bruninho",
+    "aportePadrao": 300,
+    "moeda": "BRL"
+  },
+  "itens": [
+    {
+      "id": "item-est-1",
+      "nome": "Poco X6 Pro 5G - 512GB / 12GB RAM",
+      "categoria": "Celular / Smartphone",
+      "valorCompra": 820,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-09-10",
+      "status": "Em Estoque",
+      "valorVenda": null,
+      "dataVenda": null,
+      "comprador": "",
+      "canalVenda": "OLX",
+      "observacoes": "Em estoque - Anunciado na OLX em 12/09 por R$ 1.199 (R$ 1.550)",
+      "lucroLiquido": null,
+      "margemPercentual": null
+    },
+    {
+      "id": "item-est-2",
+      "nome": "Motorola Edge 30 - 256GB / 8GB RAM",
+      "categoria": "Celular / Smartphone",
+      "valorCompra": 340,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-09-01",
+      "status": "Em Estoque",
+      "valorVenda": null,
+      "dataVenda": null,
+      "comprador": "",
+      "canalVenda": "OLX",
+      "observacoes": "Em estoque - Anunciado na OLX em 03/09 por R$ 499",
+      "lucroLiquido": null,
+      "margemPercentual": null
+    },
+    {
+      "id": "item-venda-1",
+      "nome": "Samsung Galaxy Note 10 Lite (Aceito Trocas)",
+      "categoria": "Celular / Smartphone",
+      "anuncio": 650,
+      "valorVenda": 580,
+      "valorCompra": 240,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-07-28",
+      "dataVenda": "2026-08-04",
+      "status": "Vendido",
+      "canalVenda": "OLX",
+      "comprador": "Renan - OLX",
+      "observacoes": "Vendido com desconto de R$ 70 sobre o anúncio",
+      "lucroLiquido": 340,
+      "margemPercentual": 141.67
+    },
+    {
+      "id": "item-venda-2",
+      "nome": "Samsung S21 fe 5g aceito ofertas",
+      "categoria": "Celular / Smartphone",
+      "anuncio": 600,
+      "valorVenda": 550,
+      "valorCompra": 230,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-08-01",
+      "dataVenda": "2026-08-08",
+      "status": "Vendido",
+      "canalVenda": "OLX",
+      "comprador": "Lucas - OLX",
+      "observacoes": "Vendido com desconto de R$ 50 sobre o anúncio",
+      "lucroLiquido": 320,
+      "margemPercentual": 139.13
+    },
+    {
+      "id": "item-venda-3",
+      "nome": "Motorola moto g100 aceito ofertas",
+      "categoria": "Celular / Smartphone",
+      "anuncio": 550,
+      "valorVenda": 500,
+      "valorCompra": 190,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-08-05",
+      "dataVenda": "2026-08-12",
+      "status": "Vendido",
+      "canalVenda": "OLX",
+      "comprador": "Diego - OLX",
+      "observacoes": "Vendido com desconto de R$ 50 sobre o anúncio",
+      "lucroLiquido": 310,
+      "margemPercentual": 163.16
+    },
+    {
+      "id": "item-venda-4",
+      "nome": "Carregador Portátil Power Bank 30000mah Usb Com Cabo Turbo",
+      "categoria": "Peças / Acessórios",
+      "anuncio": 110,
+      "valorVenda": 100,
+      "valorCompra": 35,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-08-10",
+      "dataVenda": "2026-08-17",
+      "status": "Vendido",
+      "canalVenda": "Venda Direta",
+      "comprador": "Amigo",
+      "observacoes": "Vendido em mãos",
+      "lucroLiquido": 65,
+      "margemPercentual": 185.71
+    },
+    {
+      "id": "item-venda-5",
+      "nome": "POCO X6 (12GB RAM | 512GB)",
+      "categoria": "Celular / Smartphone",
+      "anuncio": 1300,
+      "valorVenda": 1200,
+      "valorCompra": 630,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-08-20",
+      "dataVenda": "2026-08-30",
+      "status": "Vendido",
+      "canalVenda": "OLX",
+      "comprador": "Guilherme - OLX",
+      "observacoes": "Vendido com desconto de R$ 100 sobre o anúncio",
+      "lucroLiquido": 570,
+      "margemPercentual": 90.48
+    },
+    {
+      "id": "item-venda-6",
+      "nome": "Samsung Galaxy S21 FE 5G",
+      "categoria": "Celular / Smartphone",
+      "anuncio": 650,
+      "valorVenda": 580,
+      "valorCompra": 240,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-08-25",
+      "dataVenda": "2026-09-03",
+      "status": "Vendido",
+      "canalVenda": "OLX",
+      "comprador": "Felipe - OLX",
+      "observacoes": "Vendido com desconto de R$ 70 sobre o anúncio",
+      "lucroLiquido": 340,
+      "margemPercentual": 141.67
+    },
+    {
+      "id": "item-venda-7",
+      "nome": "Poco X7 - 512GB / 12GB RAM (Completo na Caixa)",
+      "categoria": "Celular / Smartphone",
+      "anuncio": 1549,
+      "valorVenda": 1549,
+      "valorCompra": 840,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-08-26",
+      "dataVenda": "2026-09-03",
+      "status": "Vendido",
+      "canalVenda": "OLX",
+      "comprador": "Rodrigo - OLX",
+      "observacoes": "Vendido pelo valor exato do anúncio (aparelho zerado na caixa)",
+      "lucroLiquido": 709,
+      "margemPercentual": 84.4
+    },
+    {
+      "id": "item-venda-8",
+      "nome": "Motorola Edge 60 Neo (256GB)",
+      "categoria": "Celular / Smartphone",
+      "anuncio": 1200,
+      "valorVenda": 1100,
+      "valorCompra": 560,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-08-28",
+      "dataVenda": "2026-09-04",
+      "status": "Vendido",
+      "canalVenda": "Facebook Marketplace",
+      "comprador": "Gabriel - Marketplace",
+      "observacoes": "Vendido com desconto de R$ 100 sobre o anúncio",
+      "lucroLiquido": 540,
+      "margemPercentual": 96.43
+    },
+    {
+      "id": "item-venda-9",
+      "nome": "Samsung Galaxy S23 FE",
+      "categoria": "Celular / Smartphone",
+      "anuncio": 850,
+      "valorVenda": 790,
+      "valorCompra": 367,
+      "custosAdicionais": 0,
+      "custosDescricao": "",
+      "dataCompra": "2026-08-29",
+      "dataVenda": "2026-09-05",
+      "status": "Vendido",
+      "canalVenda": "OLX",
+      "comprador": "Thiago - OLX",
+      "observacoes": "Vendido com desconto de R$ 60 sobre o anúncio",
+      "lucroLiquido": 423,
+      "margemPercentual": 115.26
+    }
+  ],
+  "transacoes": [
+    {
+      "id": "tr-estoque-compra-1",
+      "tipo": "compra",
+      "descricao": "Compra Estoque: Poco X6 Pro 5G - 512GB / 12GB RAM",
+      "valor": 820,
+      "data": "2026-09-10",
+      "itemId": "item-est-1"
+    },
+    {
+      "id": "tr-ap-6",
+      "tipo": "aporte",
+      "descricao": "Aporte Mensal do Salário (Setembro)",
+      "valor": 300,
+      "data": "2026-09-05",
+      "itemId": null
+    },
+    {
+      "id": "tr-venda-9",
+      "tipo": "venda",
+      "descricao": "Venda: Samsung Galaxy S23 FE (OLX)",
+      "valor": 790,
+      "data": "2026-09-05",
+      "itemId": "item-venda-9"
+    },
+    {
+      "id": "tr-venda-8",
+      "tipo": "venda",
+      "descricao": "Venda: Motorola Edge 60 Neo (256GB) (Facebook Marketplace)",
+      "valor": 1100,
+      "data": "2026-09-04",
+      "itemId": "item-venda-8"
+    },
+    {
+      "id": "tr-venda-6",
+      "tipo": "venda",
+      "descricao": "Venda: Samsung Galaxy S21 FE 5G (OLX)",
+      "valor": 580,
+      "data": "2026-09-03",
+      "itemId": "item-venda-6"
+    },
+    {
+      "id": "tr-venda-7",
+      "tipo": "venda",
+      "descricao": "Venda: Poco X7 - 512GB / 12GB RAM (Completo na Caixa) (OLX)",
+      "valor": 1549,
+      "data": "2026-09-03",
+      "itemId": "item-venda-7"
+    },
+    {
+      "id": "tr-estoque-compra-2",
+      "tipo": "compra",
+      "descricao": "Compra Estoque: Motorola Edge 30 - 256GB / 8GB RAM",
+      "valor": 340,
+      "data": "2026-09-01",
+      "itemId": "item-est-2"
+    },
+    {
+      "id": "tr-venda-5",
+      "tipo": "venda",
+      "descricao": "Venda: POCO X6 (12GB RAM | 512GB) (OLX)",
+      "valor": 1200,
+      "data": "2026-08-30",
+      "itemId": "item-venda-5"
+    },
+    {
+      "id": "tr-compra-9",
+      "tipo": "compra",
+      "descricao": "Compra: Samsung Galaxy S23 FE",
+      "valor": 367,
+      "data": "2026-08-29",
+      "itemId": "item-venda-9"
+    },
+    {
+      "id": "tr-compra-8",
+      "tipo": "compra",
+      "descricao": "Compra: Motorola Edge 60 Neo (256GB)",
+      "valor": 560,
+      "data": "2026-08-28",
+      "itemId": "item-venda-8"
+    },
+    {
+      "id": "tr-compra-7",
+      "tipo": "compra",
+      "descricao": "Compra: Poco X7 - 512GB / 12GB RAM (Completo na Caixa)",
+      "valor": 840,
+      "data": "2026-08-26",
+      "itemId": "item-venda-7"
+    },
+    {
+      "id": "tr-compra-6",
+      "tipo": "compra",
+      "descricao": "Compra: Samsung Galaxy S21 FE 5G",
+      "valor": 240,
+      "data": "2026-08-25",
+      "itemId": "item-venda-6"
+    },
+    {
+      "id": "tr-compra-5",
+      "tipo": "compra",
+      "descricao": "Compra: POCO X6 (12GB RAM | 512GB)",
+      "valor": 630,
+      "data": "2026-08-20",
+      "itemId": "item-venda-5"
+    },
+    {
+      "id": "tr-venda-4",
+      "tipo": "venda",
+      "descricao": "Venda: Carregador Portátil Power Bank 30000mah Usb Com Cabo Turbo (Venda Direta)",
+      "valor": 100,
+      "data": "2026-08-17",
+      "itemId": "item-venda-4"
+    },
+    {
+      "id": "tr-ap-5",
+      "tipo": "aporte",
+      "descricao": "Aporte Extra Salarial",
+      "valor": 537.56,
+      "data": "2026-08-16",
+      "itemId": null
+    },
+    {
+      "id": "tr-venda-3",
+      "tipo": "venda",
+      "descricao": "Venda: Motorola moto g100 aceito ofertas (OLX)",
+      "valor": 500,
+      "data": "2026-08-12",
+      "itemId": "item-venda-3"
+    },
+    {
+      "id": "tr-compra-4",
+      "tipo": "compra",
+      "descricao": "Compra: Carregador Portátil Power Bank 30000mah Usb Com Cabo Turbo",
+      "valor": 35,
+      "data": "2026-08-10",
+      "itemId": "item-venda-4"
+    },
+    {
+      "id": "tr-venda-2",
+      "tipo": "venda",
+      "descricao": "Venda: Samsung S21 fe 5g aceito ofertas (OLX)",
+      "valor": 550,
+      "data": "2026-08-08",
+      "itemId": "item-venda-2"
+    },
+    {
+      "id": "tr-ap-4",
+      "tipo": "aporte",
+      "descricao": "Aporte Mensal do Salário (Agosto)",
+      "valor": 300,
+      "data": "2026-08-05",
+      "itemId": null
+    },
+    {
+      "id": "tr-compra-3",
+      "tipo": "compra",
+      "descricao": "Compra: Motorola moto g100 aceito ofertas",
+      "valor": 190,
+      "data": "2026-08-05",
+      "itemId": "item-venda-3"
+    },
+    {
+      "id": "tr-venda-1",
+      "tipo": "venda",
+      "descricao": "Venda: Samsung Galaxy Note 10 Lite (Aceito Trocas) (OLX)",
+      "valor": 580,
+      "data": "2026-08-04",
+      "itemId": "item-venda-1"
+    },
+    {
+      "id": "tr-compra-2",
+      "tipo": "compra",
+      "descricao": "Compra: Samsung S21 fe 5g aceito ofertas",
+      "valor": 230,
+      "data": "2026-08-01",
+      "itemId": "item-venda-2"
+    },
+    {
+      "id": "tr-compra-1",
+      "tipo": "compra",
+      "descricao": "Compra: Samsung Galaxy Note 10 Lite (Aceito Trocas)",
+      "valor": 240,
+      "data": "2026-07-28",
+      "itemId": "item-venda-1"
+    },
+    {
+      "id": "tr-ap-3",
+      "tipo": "aporte",
+      "descricao": "Aporte Avulso de Caixa",
+      "valor": 100,
+      "data": "2026-07-22",
+      "itemId": null
+    },
+    {
+      "id": "tr-ap-2",
+      "tipo": "aporte",
+      "descricao": "Aporte Mensal do Salário (Julho)",
+      "valor": 300,
+      "data": "2026-07-05",
+      "itemId": null
+    },
+    {
+      "id": "tr-ap-1",
+      "tipo": "aporte",
+      "descricao": "Aporte Mensal do Salário (Junho)",
+      "valor": 300,
+      "data": "2026-06-05",
+      "itemId": null
+    }
+  ]
+}

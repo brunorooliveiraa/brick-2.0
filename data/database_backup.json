@@ -1,0 +1,101 @@
+{
+  "config": {
+    "nomeNegocio": "Brique Pro - Gestão & Lucro",
+    "aportePadrao": 300,
+    "moeda": "BRL"
+  },
+  "itens": [
+    {
+      "id": "ex-1",
+      "nome": "iPhone 11 64GB Preto (Bateria 85%)",
+      "categoria": "Celular / Smartphone",
+      "valorCompra": 1100,
+      "custosAdicionais": 80,
+      "custosDescricao": "Limpeza interna + película 3D",
+      "dataCompra": "2026-09-10",
+      "status": "Vendido",
+      "valorVenda": 1550,
+      "dataVenda": "2026-09-18",
+      "comprador": "Lucas - OLX",
+      "canalVenda": "OLX",
+      "observacoes": "Aparelho impecável, vendido rápido",
+      "lucroLiquido": 370,
+      "margemPercentual": 31.36
+    },
+    {
+      "id": "ex-2",
+      "nome": "Notebook Dell Inspiron i5 8GB SSD 256GB",
+      "categoria": "Notebook / PC",
+      "valorCompra": 850,
+      "custosAdicionais": 120,
+      "custosDescricao": "Fonte original Dell adquirida",
+      "dataCompra": "2026-09-20",
+      "status": "Em Estoque",
+      "valorVenda": null,
+      "dataVenda": null,
+      "comprador": "",
+      "canalVenda": "",
+      "observacoes": "Em excelente estado, formatado com Windows 11",
+      "lucroLiquido": null,
+      "margemPercentual": null
+    }
+  ],
+  "transacoes": [
+    {
+      "id": "tr-1",
+      "tipo": "aporte",
+      "descricao": "Aporte Mensal do Salário (Setembro)",
+      "valor": 300,
+      "data": "2026-09-01",
+      "itemId": null
+    },
+    {
+      "id": "tr-2",
+      "tipo": "aporte",
+      "descricao": "Aporte Inicial de Caixa",
+      "valor": 1500,
+      "data": "2026-09-05",
+      "itemId": null
+    },
+    {
+      "id": "tr-3",
+      "tipo": "compra",
+      "descricao": "Compra: iPhone 11 64GB Preto",
+      "valor": 1100,
+      "data": "2026-09-10",
+      "itemId": "ex-1"
+    },
+    {
+      "id": "tr-4",
+      "tipo": "custo_extra",
+      "descricao": "Custo Extra: Limpeza interna + película 3D (iPhone 11)",
+      "valor": 80,
+      "data": "2026-09-11",
+      "itemId": "ex-1"
+    },
+    {
+      "id": "tr-5",
+      "tipo": "venda",
+      "descricao": "Venda: iPhone 11 64GB Preto (OLX)",
+      "valor": 1550,
+      "data": "2026-09-18",
+      "itemId": "ex-1"
+    },
+    {
+      "id": "tr-6",
+      "tipo": "compra",
+      "descricao": "Compra: Notebook Dell Inspiron i5 8GB SSD 256GB",
+      "valor": 850,
+      "data": "2026-09-20",
+      "itemId": "ex-2"
+    },
+    {
+      "id": "tr-7",
+      "tipo": "custo_extra",
+      "descricao": "Custo Extra: Fonte original Dell adquirida (Dell Inspiron)",
+      "valor": 120,
+      "data": "2026-09-21",
+      "itemId": "ex-2"
+    }
+  ]
+}

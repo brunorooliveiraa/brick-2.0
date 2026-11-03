@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brique Pro - Dashboard de Compra, Venda & Caixa</title>
+  
+  <!-- Fontes Google: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js para os Gráficos de Onda e Barras Cápsula -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Estilos da Interface -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- TOAST DE NOTIFICAÇÃO -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- CONTAINER MESTRE DA APLICAÇÃO -->
+  <div class="dashboard-wrapper">
+    
+    <!-- BARRA SUPERIOR (HEADER ESTILO QUIXOTIC) -->
+    <header class="top-nav">
+      <!-- Logo da Marca -->
+      <div class="brand-container">
+        <div class="brand-logo-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.5a2.5 2.5 0 0 1-5 0V8.5a2.5 2.5 0 0 1 5 0z"></path>
+          </svg>
+        </div>
+        <span class="brand-name">Brique<span>Pro</span></span>
+      </div>
+
+      <!-- Menu Pílula Central de Navegação -->
+      <nav class="pill-nav-center">
+        <button class="pill-nav-item active" data-tab="tab-dashboard">Dashboard</button>
+        <button class="pill-nav-item" data-tab="tab-estatisticas">Estatísticas 📊</button>
+        <button class="pill-nav-item" data-tab="tab-estoque">Estoque <span id="nav-count-estoque" class="pill-counter">0</span></button>
+        <button class="pill-nav-item" data-tab="tab-vendas">Vendas <span id="nav-count-vendas" class="pill-counter-green">0</span></button>
+        <button class="pill-nav-item" data-tab="tab-caixa">Extrato de Caixa</button>
+        <button class="pill-nav-item" data-tab="tab-calculadora">Simulador</button>
+        <button class="pill-nav-item" data-tab="tab-config">Backup</button>
+      </nav>
+
+      <!-- Ações do Perfil e Notificações (Direita) -->
+      <div class="top-nav-right">
+        <!-- Botão Alternar Tema Escuro / Claro -->
+        <button class="icon-circle-btn" id="btn-theme-toggle" title="Alternar Modo Escuro / Claro">
+          <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <button class="icon-circle-btn" id="btn-top-search" title="Buscar">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+
+        <button class="icon-circle-btn" title="Notificações">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        </button>
+
+        <!-- Avatar do Bruninho -->
+        <div class="user-profile-pill" title="Bruninho - Administrador">
+          <div class="avatar-circle">B</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ÁREA DE CONTEÚDO PRINCIPAL COM SIDEBAR FLUTUANTE -->
+    <div class="main-body-container">
+      
+      <!-- SIDEBAR FLUTUANTE LATERAL (ESTILO DA IMAGEM) -->
+      <aside class="floating-sidebar">
+        <div class="sidebar-top-icons">
+          <!-- Ícone Grid (Dashboard) -->
+          <button class="sidebar-icon-btn active" data-tab="tab-dashboard" title="Dashboard">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="14" width="7" height="7" rx="2"></rect><rect x="3" y="14" width="7" height="7" rx="2"></rect></svg>
+          </button>
+          
+          <!-- Ícone Estatísticas -->
+          <button class="sidebar-icon-btn" data-tab="tab-estatisticas" title="Estatísticas & Projeções">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+          </button>
+
+          <!-- Ícone Gráficos / Vendas -->
+          <button class="sidebar-icon-btn" data-tab="tab-vendas" title="Vendas e Lucros">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"></path><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path></svg>
+          </button>
+
+          <!-- Ícone Estoque / Sacola -->
+          <button class="sidebar-icon-btn" data-tab="tab-estoque" title="Estoque Ativo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          </button>
+
+          <!-- Ícone Carteira / Caixa -->
+          <button class="sidebar-icon-btn" data-tab="tab-caixa" title="Caixa & Aportes">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path></svg>
+          </button>
+
+          <!-- Ícone Calculadora / Simulador -->
+          <button class="sidebar-icon-btn" data-tab="tab-calculadora" title="Simulador de Negociação">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="3"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+          </button>
+        </div>
+
+        <div class="sidebar-bottom-icons">
+          <!-- Ícone Config / Backup -->
+          <button class="sidebar-icon-btn" data-tab="tab-config" title="Backup e Dados">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- PAINEL CENTRAL DE CONTEÚDO -->
+      <main class="content-viewport">
+        
+        <!-- CABEÇALHO DE BOAS-VINDAS (Welcome Back, Bruninho) -->
+        <div class="welcome-header">
+          <div class="welcome-text">
+            <h1 class="welcome-title">Bem-vindo de volta, <span>Bruninho</span></h1>
+            <p class="welcome-subtitle">Gerencie suas compras, vendas e o crescimento do seu caixa de briques.</p>
+          </div>
+
+          <div class="welcome-actions">
+            <!-- Pílula de Período -->
+            <div class="pill-date-filter">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span id="label-periodo-atual">Setembro 2026</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+
+            <!-- Botão Aporte Rápido (+R$ 300) -->
+            <button id="btn-quick-aporte" class="btn-clean-white" title="Injetar R$ 300 do salário mensal no caixa">
+              <span class="btn-plus-icon">+</span>
+              <span>Aporte Salário (+R$ 300)</span>
+            </button>
+
+            <!-- Botão Novo Brique -->
+            <button id="btn-open-novo-brique" class="btn-green-solid" title="Cadastrar nova compra">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Novo Brique</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==========================================================
+             ABA 1: DASHBOARD PRINCIPAL (LAYOUT IDÊNTICO À REFERÊNCIA)
+             ========================================================== -->
+        <section id="tab-dashboard" class="tab-pane active">
+          
+          <div class="quixotic-grid">
+            
+            <!-- COLUNA ESQUERDA: CARTÃO VERDE DE CAIXA + LUCRO + HISTÓRICO RECENTE -->
+            <div class="col-left">
+              
+              <!-- CARTÃO DE CRÉDITO/CAIXA ESTILO FINTECH -->
+              <div class="fintech-card">
+                <div class="card-top-row">
+                  <div class="card-meta">
+                    <span class="meta-label">Caixa do Negócio</span>
+                    <span class="meta-sub">Saldo Livre para Compras</span>
+                  </div>
+                  <div class="card-arrow-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </div>
+                </div>
+
+                <!-- O CARTÃO VERDE EM SI -->
+                <div class="green-wallet-card">
+                  <div class="wallet-card-header">
+                    <span class="wallet-card-brand">BRIQUE CAIXA</span>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10"></path><path d="M12 6a6 6 0 0 1 6 6"></path><path d="M12 10a2 2 0 0 1 2 2"></path></svg>
+                  </div>
+                  <span class="wallet-card-type">Saldo Disponível</span>
+                  <h2 id="kpi-saldo-caixa" class="wallet-balance">R$ 0,00</h2>
+                  <div class="wallet-card-footer">
+                    <span>•••• 300.00 / Mês</span>
+                    <span>EXP 10/26</span>
+                  </div>
+                </div>
+
+                <!-- RECEITA SEMANAL / LUCRO DO PERÍODO -->
+                <div class="weekly-revenue-row">
+                  <div class="revenue-info">
+                    <span class="rev-label">Lucro Líquido Realizado</span>
+                    <h3 id="kpi-lucro-realizado" class="rev-val">+R$ 0,00</h3>
+                  </div>
+                  <div class="badge-percent-green" id="kpi-roi">+20.6% ROI</div>
+                </div>
+              </div>
+
+              <!-- HISTÓRICO DE MOVIMENTAÇÕES (PAYMENT HISTORY DA IMAGEM) -->
+              <div class="white-card history-card">
+                <div class="card-header-clean">
+                  <div>
+                    <h3 class="card-header-title">Histórico de Transações</h3>
+                    <span class="card-header-sub">Movimentações recentes do negócio</span>
+                  </div>
+                  <button class="btn-arrow-tiny" onclick="mudarAba('tab-caixa')" title="Ver extrato completo">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </button>
+                </div>
+
+                <div class="table-clean-wrapper">
+                  <table class="table-clean">
+                    <thead>
+                      <tr>
+                        <th>Origem / Item</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th class="text-right">Valor</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dashboard-history-tbody">
+                      <!-- Renderizado via Javascript com ícones circulares bonitos -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- COLUNA CENTRAL: GRÁFICO DE BARRAS CÁPSULA (ENGAGEMENT RATE) -->
+            <div class="col-center">
+              
+              <div class="white-card chart-card-capsule">
+                <div class="card-header-clean">
+                  <div class="title-with-icon">
+                    <div class="icon-tag-soft">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    </div>
+                    <div>
+                      <h3 class="card-header-title">Giro Financeiro</h3>
+                      <span class="card-header-sub">Volume negociado e retorno</span>
+                    </div>
+                  </div>
+
+                  <!-- Botões de Toggle em Pílula (Monthly / Annually) -->
+                  <div class="pill-toggle-group">
+                    <button class="pill-toggle-btn">Mensal</button>
+                    <button class="pill-toggle-btn active">Geral</button>
+                    <button class="btn-arrow-tiny" title="Expandir">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Gráfico Chart.js com barras estilo cápsula arredondada -->
+                <div class="chart-wrapper-capsule">
+                  <canvas id="chart-fluxo"></canvas>
+                </div>
+              </div>
+
+              <!-- CARD: APARELHOS ATIVOS EM ESTOQUE (PRONTOS PARA VENDA) -->
+              <div class="white-card mt-20">
+                <div class="card-header-clean">
+                  <div>
+                    <h3 class="card-header-title">Aparelhos em Estoque</h3>
+                    <span class="card-header-sub">Itens prontos para anunciar e vender</span>
+                  </div>
+                  <button class="btn-outline-pill-sm" onclick="mudarAba('tab-estoque')">Ver Todos</button>
+                </div>
+                <div id="dashboard-estoque-rapido" class="mt-12">
+                  <!-- Renderizado via JS -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- COLUNA DIREITA: TOTAL BALANCE + AMOUNT OF CREDIT + ATALHOS -->
+            <div class="col-right">
+              
+              <!-- TOTAL BALANCE COM GRÁFICO DE ONDA SUAVE -->
+              <div class="white-card balance-card">
+                <div class="card-header-clean">
+                  <div>
+                    <span class="card-meta-tag">Patrimônio Total</span>
+                    <span class="card-header-sub">Caixa + Estoque Ativo</span>
+                  </div>
+                  <div class="btn-arrow-tiny">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </div>
+                </div>
+
+                <div class="balance-big-amount">
+                  <span class="balance-label-tiny">Total do Negócio</span>
+                  <h2 id="kpi-patrimonio" class="balance-number">R$ 0,00</h2>
+                </div>
+
+                <!-- Gráfico de Onda Suave (Wave Chart) -->
+                <div class="wave-chart-container">
+                  <canvas id="chart-wave"></canvas>
+                </div>
+
+                <!-- Botões Send / Receive (Aporte / Vender) -->
+                <div class="card-actions-pill-row">
+                  <button class="btn-action-pill-green" id="btn-card-aporte" onclick="realizarAporte300()">
+                    <span>Aporte R$ 300</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+                  </button>
+                  <button class="btn-action-pill-light" onclick="mudarAba('tab-estoque')">
+                    <span>Vender Item</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- AMOUNT OF CREDIT / CAPITAL EM ESTOQUE -->
+              <div class="white-card mt-20">
+                <div class="card-header-clean">
+                  <div class="title-with-icon">
+                    <div class="icon-tag-soft">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                    </div>
+                    <div>
+                      <span class="card-meta-tag">Capital em Estoque</span>
+                      <span class="card-header-sub" id="kpi-qtd-estoque">0 itens comprados</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="credit-amount-row mt-12">
+                  <h3 id="kpi-capital-estoque" class="credit-number">R$ 0,00</h3>
+                  <span class="badge-percent-green" id="kpi-estoque-badge">Ativo</span>
+                </div>
+              </div>
+
+              <!-- APORTES INJETADOS & CANAIS DE VENDA -->
+              <div class="white-card mt-20">
+                <div class="card-header-clean">
+                  <div>
+                    <h3 class="card-header-title">Total Aportado</h3>
+                    <span class="card-header-sub">Do seu salário investido</span>
+                  </div>
+                  <div class="btn-arrow-tiny" onclick="mudarAba('tab-caixa')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </div>
+                </div>
+
+                <div class="credit-amount-row mt-6">
+                  <h3 id="kpi-total-aportes" class="credit-number text-dark">R$ 0,00</h3>
+                </div>
+
+                <!-- Canais / Avatares (OLX, Face, Amigo, etc.) -->
+                <div class="channels-avatars-row mt-14">
+                  <div class="channel-avatar olx" title="OLX">OLX</div>
+                  <div class="channel-avatar fb" title="Facebook Marketplace">FB</div>
+                  <div class="channel-avatar ig" title="Instagram / WhatsApp">IG</div>
+                  <div class="channel-avatar direct" title="Venda Direta / Amigos">+3</div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ==========================================================
+             ABA NOVA: ESTATÍSTICAS & PROSPECÇÃO DE LUCRO
+             ========================================================== -->
+        <section id="tab-estatisticas" class="tab-pane">
+          
+          <!-- Banner de Título da Seção -->
+          <div class="stats-header-banner">
+            <div>
+              <h2 class="stats-section-title">Estatísticas & Prospecção de Lucro</h2>
+              <p class="stats-section-sub">Análise detalhada de rentabilidade real, retorno do capital e projeções de estoque</p>
+            </div>
+            <div class="stats-quick-badge">
+              <span>Status: </span>
+              <strong class="text-green">Negócio Altamente Lucrativo (+196,8% ROI)</strong>
+            </div>
+          </div>
+
+          <!-- 1. OS 4 PILARES DE RETORNO DO BOLSO (CARDS PRINCIPAIS) -->
+          <div class="stats-metrics-grid mt-16">
+            
+            <div class="white-card stat-pillar-card">
+              <div class="stat-pillar-top">
+                <span class="stat-pill-label">Total Injetado (Bolso)</span>
+                <div class="stat-pill-badge">Salário + Aportes</div>
+              </div>
+              <h3 id="stat-total-aportado" class="stat-pillar-number text-dark">R$ 1.837,56</h3>
+              <p class="stat-pillar-desc">4 meses de R$ 300 (R$ 1.200) + R$ 537,56 + R$ 100 avulso</p>
+              <div class="stat-progress-bar-bg mt-10">
+                <div class="stat-progress-bar-fill green" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <div class="white-card stat-pillar-card">
+              <div class="stat-pillar-top">
+                <span class="stat-pill-label">Lucro Líquido Realizado</span>
+                <div class="stat-pill-badge green">+3.617,00 Limpo</div>
+              </div>
+              <h3 id="stat-lucro-realizado" class="stat-pillar-number text-green">+R$ 3.617,00</h3>
+              <p class="stat-pillar-desc">Dinheiro líquido já embolsado em 9 vendas concluídas</p>
+              <div class="stat-progress-bar-bg mt-10">
+                <div class="stat-progress-bar-fill green" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <div class="white-card stat-pillar-card">
+              <div class="stat-pillar-top">
+                <span class="stat-pill-label">Rentabilidade Real (ROI)</span>
+                <div class="stat-pill-badge green">Multiplicador 2,97x</div>
+              </div>
+              <h3 id="stat-roi-percentual" class="stat-pillar-number text-green">+196,8%</h3>
+              <p class="stat-pillar-desc">Você quase triplicou o dinheiro que tirou do seu salário</p>
+              <div class="stat-progress-bar-bg mt-10">
+                <div class="stat-progress-bar-fill green" style="width: 98%;"></div>
+              </div>
+            </div>
+
+            <div class="white-card stat-pillar-card">
+              <div class="stat-pillar-top">
+                <span class="stat-pill-label">Margem Média por Venda</span>
+                <div class="stat-pill-badge blue">Precinho de Brique</div>
+              </div>
+              <h3 id="stat-margem-media" class="stat-pillar-number text-dark">128,7%</h3>
+              <p class="stat-pillar-desc">Média de lucro bruto sobre o custo de compra dos aparelhos</p>
+              <div class="stat-progress-bar-bg mt-10">
+                <div class="stat-progress-bar-fill blue" style="width: 85%;"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 2. CARD MESTRE: PROSPECÇÃO DO ESTOQUE ATUAL (PREVISÃO DE FUTURO) -->
+          <div class="white-card mt-20 prospec-master-card">
+            <div class="card-header-clean">
+              <div>
+                <div class="prospec-tag-row">
+                  <span class="badge-percent-green">🔮 Prospecção do Estoque Ativo</span>
+                  <span class="card-header-sub">Previsão de faturamento e lucro com os aparelhos que você tem em mãos agora</span>
+                </div>
+                <h3 class="card-header-title mt-4">Cenários Futuros de Venda do Estoque</h3>
+              </div>
+              <div class="prospec-stock-summary">
+                <span>Estoque Travado: <strong class="text-dark">R$ 1.160,00</strong> (2 Celulares)</span>
+              </div>
+            </div>
+
+            <!-- Lista dos Aparelhos em Estoque para Prospecção -->
+            <div class="prospec-items-chips mt-10">
+              <div class="prospec-chip">
+                <span class="chip-dot green"></span>
+                <strong>Poco X6 Pro 5G (512GB / 12GB)</strong>
+                <span class="chip-cost">Custo: R$ 820</span>
+                <span class="chip-target">Anúncio OLX: R$ 1.199</span>
+              </div>
+              <div class="prospec-chip">
+                <span class="chip-dot green"></span>
+                <strong>Motorola Edge 30 (256GB / 8GB)</strong>
+                <span class="chip-cost">Custo: R$ 340</span>
+                <span class="chip-target">Anúncio OLX: R$ 499</span>
+              </div>
+            </div>
+
+            <!-- Os 3 Cenários de Venda -->
+            <div class="prospec-scenarios-grid mt-16">
+              
+              <!-- Cenário 1: Realista (Recomendado) -->
+              <div class="scenario-card featured">
+                <div class="scenario-header">
+                  <span class="scenario-type">Cenário Mais Provável</span>
+                  <span class="scenario-badge-recom">Seu Padrão (Desconto R$ 50 - R$ 100)</span>
+                </div>
+                <h4 class="scenario-title">Venda com Desconto Normal</h4>
+                <div class="scenario-numbers">
+                  <div class="scen-row">
+                    <span>Venda Prevista:</span>
+                    <strong>R$ 1.550,00</strong>
+                  </div>
+                  <div class="scen-row">
+                    <span>Lucro a Entrar:</span>
+                    <strong class="text-green">+R$ 390,00</strong>
+                  </div>
+                  <div class="scen-row highlight">
+                    <span>Novo Caixa Projetado:</span>
+                    <strong class="text-green text-lg">R$ 5.844,56</strong>
+                  </div>
+                </div>
+                <p class="scen-footer">Poco vendido por R$ 1.100 + Edge 30 vendido por R$ 450</p>
+              </div>
+
+              <!-- Cenário 2: Otimista -->
+              <div class="scenario-card">
+                <div class="scenario-header">
+                  <span class="scenario-type">Cenário Otimista</span>
+                  <span class="scenario-badge">Preço Cheio Anunciado</span>
+                </div>
+                <h4 class="scenario-title">Venda sem Desconto</h4>
+                <div class="scenario-numbers">
+                  <div class="scen-row">
+                    <span>Venda Prevista:</span>
+                    <strong>R$ 1.698,00</strong>
+                  </div>
+                  <div class="scen-row">
+                    <span>Lucro a Entrar:</span>
+                    <strong class="text-green">+R$ 538,00</strong>
+                  </div>
+                  <div class="scen-row highlight">
+                    <span>Novo Caixa Projetado:</span>
+                    <strong class="text-green text-lg">R$ 5.992,56</strong>
+                  </div>
+                </div>
+                <p class="scen-footer">Poco vendido por R$ 1.199 + Edge 30 vendido por R$ 499</p>
+              </div>
+
+              <!-- Cenário 3: Conservador / Queima de Estoque -->
+              <div class="scenario-card">
+                <div class="scenario-header">
+                  <span class="scenario-type">Cenário Conservador</span>
+                  <span class="scenario-badge">Giro Rápido</span>
+                </div>
+                <h4 class="scenario-title">Queima Rápida para Caixa</h4>
+                <div class="scenario-numbers">
+                  <div class="scen-row">
+                    <span>Venda Prevista:</span>
+                    <strong>R$ 1.400,00</strong>
+                  </div>
+                  <div class="scen-row">
+                    <span>Lucro a Entrar:</span>
+                    <strong class="text-green">+R$ 240,00</strong>
+                  </div>
+                  <div class="scen-row highlight">
+                    <span>Novo Caixa Projetado:</span>
+                    <strong class="text-green text-lg">R$ 5.694,56</strong>
+                  </div>
+                </div>
+                <p class="scen-footer">Poco vendido por R$ 1.000 + Edge 30 vendido por R$ 400</p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 3. INTELIGÊNCIA OPERACIONAL (TICKETS E GIRO) -->
+          <div class="stats-ops-grid mt-20">
+            
+            <div class="white-card">
+              <h3 class="card-header-title">Métricas de Giro & Operação</h3>
+              <span class="card-header-sub">Comportamento real das suas negociações</span>
+
+              <div class="ops-stats-list mt-16">
+                <div class="ops-stat-item">
+                  <div class="ops-icon-wrap">🏷️</div>
+                  <div class="ops-info">
+                    <span class="ops-label">Ticket Médio de Venda</span>
+                    <strong class="ops-val">R$ 772,11 por aparelho</strong>
+                  </div>
+                </div>
+
+                <div class="ops-stat-item">
+                  <div class="ops-icon-wrap">💎</div>
+                  <div class="ops-info">
+                    <span class="ops-label">Lucro Médio por Brique</span>
+                    <strong class="ops-val text-green">+R$ 401,89 limpo por venda</strong>
+                  </div>
+                </div>
+
+                <div class="ops-stat-item">
+                  <div class="ops-icon-wrap">⏱️</div>
+                  <div class="ops-info">
+                    <span class="ops-label">Tempo Médio de Giro</span>
+                    <strong class="ops-val">7,8 dias entre compra e venda</strong>
+                  </div>
+                </div>
+
+                <div class="ops-stat-item">
+                  <div class="ops-icon-wrap">🔄</div>
+                  <div class="ops-info">
+                    <span class="ops-label">Giro do Capital Inicial</span>
+                    <strong class="ops-val">3,8 vezes o capital girado</strong>
+                  </div>
+                </div>
+
+                <div class="ops-stat-item">
+                  <div class="ops-icon-wrap">🎯</div>
+                  <div class="ops-info">
+                    <span class="ops-label">Taxa de Conversão de Estoque</span>
+                    <strong class="ops-val text-green">81,8% (9 vendidos de 11 comprados)</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gráfico de Lucro por Marca -->
+            <div class="white-card">
+              <div class="card-header-clean">
+                <div>
+                  <h3 class="card-header-title">Lucro Líquido por Marca</h3>
+                  <span class="card-header-sub">Quais fabricantes mais colocaram dinheiro no seu bolso</span>
+                </div>
+              </div>
+              <div class="chart-container-stat mt-10">
+                <canvas id="chart-marcas"></canvas>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 4. META FINANCEIRA: RUMO AOS R$ 10.000,00 -->
+          <div class="white-card mt-20 goal-tracker-card">
+            <div class="goal-header">
+              <div class="goal-icon-circle">🎯</div>
+              <div>
+                <h3 class="card-header-title">Meta de Crescimento: R$ 10.000,00 em Caixa</h3>
+                <span class="card-header-sub">Seu objetivo de escala reinvestindo os aportes e lucros</span>
+              </div>
+              <div class="goal-percentage-pill">
+                <strong id="stat-meta-percent">42,9%</strong>
+                <span>Concluído</span>
+              </div>
+            </div>
+
+            <div class="goal-progress-wrap mt-16">
+              <div class="goal-progress-bar">
+                <div class="goal-progress-fill" style="width: 42.9%;"></div>
+              </div>
+              <div class="goal-labels-row mt-6">
+                <span>Atual: <strong class="text-green">R$ 4.294,56</strong></span>
+                <span>Faltam: <strong>R$ 5.705,44</strong></span>
+                <span>Alvo: <strong>R$ 10.000,00</strong></span>
+              </div>
+            </div>
+
+            <div class="goal-estimate-box mt-16">
+              <div class="goal-est-icon">🚀</div>
+              <div class="goal-est-text">
+                <strong>Projeção de Conclusão da Meta:</strong>
+                <p>Mantendo o ritmo médio de <strong>R$ 900 de lucro/mês</strong> + seus <strong>R$ 300 de aporte salarial</strong>, você atingirá <strong>R$ 10.000,00 em apenas 4 a 5 meses</strong> (por volta de Fevereiro/Março 2027)!</p>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==========================================================
+             ABA 2: ESTOQUE ATIVO (ITENS A VENDA)
+             ========================================================== -->
+        <section id="tab-estoque" class="tab-pane">
+          <div class="white-card">
+            
+            <!-- Barra de Filtros Estilo Clean -->
+            <div class="clean-filters-bar">
+              <div class="clean-search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="filtro-estoque-busca" placeholder="Buscar por celular, notebook, modelo...">
+              </div>
+
+              <div class="clean-filters-actions">
+                <select id="filtro-estoque-categoria" class="clean-select">
+                  <option value="">Todas as Categorias</option>
+                  <option value="Celular / Smartphone">Celular / Smartphone</option>
+                  <option value="Notebook / PC">Notebook / PC</option>
+                  <option value="Tablet / iPad">Tablet / iPad</option>
+                  <option value="Videogame / Console">Videogame / Console</option>
+                  <option value="Smartwatch">Smartwatch</option>
+                  <option value="Peças / Acessórios">Peças / Acessórios</option>
+                  <option value="Outros">Outros</option>
+                </select>
+
+                <select id="filtro-estoque-status" class="clean-select">
+                  <option value="">Todos os Status</option>
+                  <option value="Em Estoque">Em Estoque</option>
+                  <option value="Em Manutenção">Em Manutenção/Revisão</option>
+                  <option value="Anunciado">Anunciado</option>
+                </select>
+
+                <button id="btn-novo-brique-tab" class="btn-green-solid">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>Adicionar Brique</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tabela de Estoque -->
+            <div class="table-clean-wrapper mt-16">
+              <table class="table-clean" id="tabela-estoque">
+                <thead>
+                  <tr>
+                    <th>Aparelho / Item</th>
+                    <th>Categoria</th>
+                    <th>Data Compra</th>
+                    <th>Valor Pago</th>
+                    <th>Custos Peças</th>
+                    <th>Custo Total</th>
+                    <th>Status</th>
+                    <th class="text-right">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="lista-estoque-corpo">
+                  <!-- Renderizado via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div id="empty-estoque" class="empty-state-clean hidden">
+              <p>Nenhum item em estoque no momento.</p>
+              <button class="btn-green-solid btn-sm mt-8" onclick="abrirModalNovoBrique()">Cadastrar Primeiro Brique</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             ABA 3: BRIQUES VENDIDOS & LUCROS
+             ========================================================== -->
+        <section id="tab-vendas" class="tab-pane">
+          <div class="white-card">
+            
+            <!-- Sumário em Pílulas Clean -->
+            <div class="clean-filters-bar">
+              <div class="clean-search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="filtro-vendas-busca" placeholder="Buscar venda por item, comprador, canal...">
+              </div>
+
+              <div class="summary-pill-group">
+                <div class="summary-pill-card">
+                  <span class="pill-label">Total Faturado:</span>
+                  <strong id="sum-faturado" class="pill-val">R$ 0,00</strong>
+                </div>
+                <div class="summary-pill-card green">
+                  <span class="pill-label">Lucro Líquido:</span>
+                  <strong id="sum-lucro" class="pill-val green">+R$ 0,00</strong>
+                </div>
+                <div class="summary-pill-card">
+                  <span class="pill-label">Margem Média:</span>
+                  <strong id="sum-margem" class="pill-val">0%</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tabela de Vendas -->
+            <div class="table-clean-wrapper mt-16">
+              <table class="table-clean" id="tabela-vendas">
+                <thead>
+                  <tr>
+                    <th>Aparelho / Item</th>
+                    <th>Canal / Comprador</th>
+                    <th>Data Venda</th>
+                    <th>Custo Total</th>
+                    <th>Valor Venda</th>
+                    <th>Lucro Líquido</th>
+                    <th>Margem (%)</th>
+                    <th class="text-right">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="lista-vendas-corpo">
+                  <!-- Renderizado via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div id="empty-vendas" class="empty-state-clean hidden">
+              <p>Nenhuma venda registrada ainda. Ao vender um aparelho do estoque, o lucro entrará direto no seu caixa!</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             ABA 4: FLUXO DE CAIXA & APORTES
+             ========================================================== -->
+        <section id="tab-caixa" class="tab-pane">
+          <div class="caixa-dual-grid">
+            
+            <!-- Bloco Esquerdo: Aporte Salarial e Ações -->
+            <div class="white-card">
+              <h3 class="card-header-title">Gestão de Caixa & Aportes</h3>
+              <p class="card-header-sub">Regra: R$ 300 do seu salário injetados todo mês no negócio</p>
+
+              <!-- Card Destaque Verde -->
+              <div class="green-feature-box mt-16">
+                <div class="feature-box-top">
+                  <span class="feature-tag">Aporte Salarial Mensal</span>
+                  <span class="feature-value">R$ 300,00</span>
+                </div>
+                <p class="feature-desc">Injete R$ 300 do seu salário para aumentar seu poder de compra e negociar mais aparelhos.</p>
+                <button id="btn-fazer-aporte-300" class="btn-feature-white mt-12">
+                  <span class="btn-plus-icon">+</span>
+                  <span>Confirmar Aporte de R$ 300 Agora</span>
+                </button>
+              </div>
+
+              <!-- Ações Extras -->
+              <div class="quick-caixa-actions mt-16">
+                <button id="btn-custom-aporte" class="btn-clean-white full-w">
+                  <span>Aporte de Outro Valor</span>
+                </button>
+                <button id="btn-retirada-lucro" class="btn-clean-danger full-w mt-8">
+                  <span>Retirar Lucro Pessoal</span>
+                </button>
+              </div>
+
+              <!-- Resumo Contábil -->
+              <div class="accounting-summary-box mt-16">
+                <div class="acc-row">
+                  <span>Total Aportes Injetados:</span>
+                  <strong id="caixa-stat-aportes" class="text-green">R$ 0,00</strong>
+                </div>
+                <div class="acc-row">
+                  <span>Total Comprado em Itens:</span>
+                  <strong id="caixa-stat-compras" class="text-danger">R$ 0,00</strong>
+                </div>
+                <div class="acc-row">
+                  <span>Total Recebido em Vendas:</span>
+                  <strong id="caixa-stat-vendas" class="text-dark">R$ 0,00</strong>
+                </div>
+                <div class="acc-row">
+                  <span>Total Gastos em Peças/Revisão:</span>
+                  <strong id="caixa-stat-custos" class="text-danger">R$ 0,00</strong>
+                </div>
+                <div class="acc-row divider-top">
+                  <span>Saldo Disponível em Caixa:</span>
+                  <strong id="caixa-stat-saldo" class="text-green text-lg">R$ 0,00</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bloco Direito: Extrato Completo -->
+            <div class="white-card">
+              <div class="card-header-clean">
+                <div>
+                  <h3 class="card-header-title">Extrato Detalhado</h3>
+                  <span class="card-header-sub">Histórico de entradas e saídas do caixa</span>
+                </div>
+                <select id="filtro-extrato-tipo" class="clean-select">
+                  <option value="">Todos os tipos</option>
+                  <option value="aporte">Aportes (+)</option>
+                  <option value="venda">Vendas (+)</option>
+                  <option value="compra">Compras (-)</option>
+                  <option value="custo_extra">Peças / Custos (-)</option>
+                  <option value="retirada">Retiradas (-)</option>
+                </select>
+              </div>
+
+              <div class="table-clean-wrapper mt-12">
+                <table class="table-clean" id="tabela-extrato">
+                  <thead>
+                    <tr>
+                      <th>Data</th>
+                      <th>Tipo</th>
+                      <th>Descrição</th>
+                      <th class="text-right">Valor</th>
+                      <th class="text-right">Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody id="lista-extrato-corpo">
+                    <!-- Renderizado via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             ABA 5: SIMULADOR DE BRIQUE
+             ========================================================== -->
+        <section id="tab-calculadora" class="tab-pane">
+          <div class="white-card max-w-860 mx-auto">
+            <div class="card-header-clean">
+              <div>
+                <h3 class="card-header-title">Simulador de Brique (Comprar ou Não?)</h3>
+                <span class="card-header-sub">Calcule a margem e o lucro antes de fechar negócio com o vendedor</span>
+              </div>
+            </div>
+
+            <div class="simulador-clean-grid mt-20">
+              <div class="sim-form-side">
+                <div class="clean-form-group">
+                  <label for="sim-nome">Aparelho em Negociação:</label>
+                  <input type="text" id="sim-nome" class="clean-input" placeholder="Ex: iPhone 12 128GB ou Dell i5">
+                </div>
+
+                <div class="clean-form-group">
+                  <label for="sim-compra">Quanto o vendedor está pedindo? (R$):</label>
+                  <input type="number" id="sim-compra" class="clean-input font-bold" placeholder="0.00" step="0.01">
+                </div>
+
+                <div class="clean-form-group">
+                  <label for="sim-custo">Quanto vai gastar em peças/revisão? (R$):</label>
+                  <input type="number" id="sim-custo" class="clean-input" placeholder="0.00" step="0.01" value="0">
+                </div>
+
+                <div class="clean-form-group">
+                  <label for="sim-venda">Preço de revenda na OLX/Marketplace? (R$):</label>
+                  <input type="number" id="sim-venda" class="clean-input font-bold" placeholder="0.00" step="0.01">
+                </div>
+              </div>
+
+              <div class="sim-result-side">
+                <div class="sim-card-score">
+                  <span class="score-tag">Lucro Líquido Estimado</span>
+                  <h1 id="sim-lucro-estimado" class="score-number">+R$ 0,00</h1>
+
+                  <div class="score-sub-metrics mt-16">
+                    <div class="score-metric-row">
+                      <span>Custo Total:</span>
+                      <strong id="sim-custo-total">R$ 0,00</strong>
+                    </div>
+                    <div class="score-metric-row">
+                      <span>Margem Estimada:</span>
+                      <strong id="sim-margem-estimada" class="text-green">0%</strong>
+                    </div>
+                    <div class="score-metric-row">
+                      <span>Impacto no Caixa:</span>
+                      <strong id="sim-impacto-caixa">Calculando...</strong>
+                    </div>
+                  </div>
+
+                  <div id="sim-veredito" class="clean-verdict mt-16">
+                    Preencha os valores para simular
+                  </div>
+
+                  <button id="btn-converter-em-brique" class="btn-green-solid full-w mt-14 hidden">
+                    Comprei! Salvar no Estoque
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             ABA 6: BACKUP & DADOS LOCAIS
+             ========================================================== -->
+        <section id="tab-config" class="tab-pane">
+          <div class="white-card max-w-780 mx-auto">
+            <div class="card-header-clean">
+              <div>
+                <h3 class="card-header-title">Armazenamento Local & Cópia de Segurança</h3>
+                <span class="card-header-sub">Todos os seus dados ficam salvos no seu PC em <code>data/database.json</code></span>
+              </div>
+            </div>
+
+            <div class="backup-options-list mt-20">
+              <div class="backup-option-card">
+                <div>
+                  <h4>Baixar Cópia de Segurança</h4>
+                  <p>Baixe um arquivo JSON com todas as suas compras, vendas e histórico de caixa.</p>
+                </div>
+                <a href="/api/backup/exportar" class="btn-clean-white" download="brique_pro_backup.json">
+                  Baixar Arquivo
+                </a>
+              </div>
+
+              <div class="backup-option-card">
+                <div>
+                  <h4>Restaurar Backup</h4>
+                  <p>Carregue um arquivo JSON previamente salvo caso formate ou troque de notebook.</p>
+                </div>
+                <label class="btn-clean-white cursor-pointer">
+                  <span>Selecionar Backup</span>
+                  <input type="file" id="input-restore-backup" accept=".json" style="display:none;">
+                </label>
+              </div>
+
+              <div class="backup-option-card danger">
+                <div>
+                  <h4 class="text-danger">Zerar Dados de Demonstração</h4>
+                  <p>Limpa todos os dados de testes e começa o sistema 100% zerado e limpo.</p>
+                </div>
+                <button id="btn-zerar-dados" class="btn-clean-danger">
+                  Zerar Sistema
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+  </div>
+
+  <!-- ==========================================================
+       MODAIS EM ESTILO CLEAN COM CANTOS ARREDONDADOS
+       ========================================================== -->
+
+  <!-- MODAL: NOVO BRIQUE / COMPRA -->
+  <div id="modal-novo-brique" class="modal-overlay hidden">
+    <div class="clean-modal-card">
+      <div class="modal-header-clean">
+        <h3 class="modal-title">Novo Brique (Compra de Item)</h3>
+        <button class="modal-close-btn" onclick="fecharModais()">&times;</button>
+      </div>
+      <form id="form-novo-brique">
+        <div class="modal-body-clean">
+          <div class="clean-form-group">
+            <label for="item-nome">Aparelho / Modelo: *</label>
+            <input type="text" id="item-nome" class="clean-input" placeholder="Ex: iPhone 11 64GB Preto ou Dell Inspiron i5" required>
+          </div>
+
+          <div class="clean-form-row">
+            <div class="clean-form-group col-6">
+              <label for="item-categoria">Categoria:</label>
+              <select id="item-categoria" class="clean-select" required>
+                <option value="Celular / Smartphone">Celular / Smartphone</option>
+                <option value="Notebook / PC">Notebook / PC</option>
+                <option value="Tablet / iPad">Tablet / iPad</option>
+                <option value="Videogame / Console">Videogame / Console</option>
+                <option value="Smartwatch">Smartwatch</option>
+                <option value="Peças / Acessórios">Peças / Acessórios</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+
+            <div class="clean-form-group col-6">
+              <label for="item-status">Status Inicial:</label>
+              <select id="item-status" class="clean-select">
+                <option value="Em Estoque">Em Estoque</option>
+                <option value="Em Manutenção">Em Manutenção/Revisão</option>
+                <option value="Anunciado">Já Anunciado</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="clean-form-row">
+            <div class="clean-form-group col-6">
+              <label for="item-valor-compra">Valor Pago na Compra (R$): *</label>
+              <input type="number" id="item-valor-compra" class="clean-input font-bold" placeholder="0.00" step="0.01" required>
+            </div>
+
+            <div class="clean-form-group col-6">
+              <label for="item-data-compra">Data da Compra:</label>
+              <input type="date" id="item-data-compra" class="clean-input" required>
+            </div>
+          </div>
+
+          <div class="clean-form-row">
+            <div class="clean-form-group col-6">
+              <label for="item-custos-adicionais">Gastos em Peças/Revisão (R$):</label>
+              <input type="number" id="item-custos-adicionais" class="clean-input" placeholder="0.00" step="0.01" value="0">
+            </div>
+
+            <div class="clean-form-group col-6">
+              <label for="item-custos-descricao">O que comprou de peças?</label>
+              <input type="text" id="item-custos-descricao" class="clean-input" placeholder="Ex: Tela nova, bateria, carregador">
+            </div>
+          </div>
+
+          <div class="clean-form-group">
+            <label for="item-observacoes">Observações / Detalhes do Aparelho:</label>
+            <textarea id="item-observacoes" class="clean-input" rows="2" placeholder="Ex: Bateria 85%, sem marcas de uso, acompanha cabo"></textarea>
+          </div>
+
+          <div class="clean-checkbox-row mt-10">
+            <input type="checkbox" id="item-descontar-caixa" checked>
+            <label for="item-descontar-caixa">Descontar automaticamente este valor do Saldo do Caixa</label>
+          </div>
+        </div>
+
+        <div class="modal-footer-clean">
+          <button type="button" class="btn-clean-white" onclick="fecharModais()">Cancelar</button>
+          <button type="submit" class="btn-green-solid">Salvar no Estoque</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: REGISTRAR VENDA -->
+  <div id="modal-vender-item" class="modal-overlay hidden">
+    <div class="clean-modal-card">
+      <div class="modal-header-clean">
+        <h3 class="modal-title">Registrar Venda do Brique 🎉</h3>
+        <button class="modal-close-btn" onclick="fecharModais()">&times;</button>
+      </div>
+      <form id="form-vender-item">
+        <input type="hidden" id="venda-item-id">
+        <input type="hidden" id="venda-item-custo-total">
+
+        <div class="modal-body-clean">
+          <div class="venda-summary-banner">
+            <span class="venda-banner-tag">Item Vendido</span>
+            <h4 id="venda-item-nome-display">Carregando...</h4>
+            <span class="venda-banner-custo">Custo Total de Compra: <strong id="venda-custo-display">R$ 0,00</strong></span>
+          </div>
+
+          <div class="clean-form-row mt-16">
+            <div class="clean-form-group col-6">
+              <label for="venda-valor">Valor Final de Venda (R$): *</label>
+              <input type="number" id="venda-valor" class="clean-input font-bold text-green text-lg" placeholder="0.00" step="0.01" required>
+            </div>
+
+            <div class="clean-form-group col-6">
+              <label for="venda-data">Data da Venda:</label>
+              <input type="date" id="venda-data" class="clean-input" required>
+            </div>
+          </div>
+
+          <div class="clean-form-row">
+            <div class="clean-form-group col-6">
+              <label for="venda-canal">Canal de Venda:</label>
+              <select id="venda-canal" class="clean-select">
+                <option value="OLX">OLX</option>
+                <option value="Facebook Marketplace">Facebook Marketplace</option>
+                <option value="Venda Direta / Conhecido">Venda Direta / Conhecido</option>
+                <option value="Instagram / WhatsApp">Instagram / WhatsApp</option>
+                <option value="Outro">Outro Canal</option>
+              </select>
+            </div>
+
+            <div class="clean-form-group col-6">
+              <label for="venda-comprador">Nome do Comprador:</label>
+              <input type="text" id="venda-comprador" class="clean-input" placeholder="Ex: Carlos (Centro)">
+            </div>
+          </div>
+
+          <!-- Preview em Tempo Real do Lucro -->
+          <div class="green-feature-box mt-12" id="venda-preview-lucro-box">
+            <div class="feature-box-top">
+              <span>Lucro Líquido nesta Venda:</span>
+              <strong id="venda-preview-lucro" class="text-green text-lg">+R$ 0,00</strong>
+            </div>
+            <div class="feature-sub-row mt-4">
+              <span>Margem de Lucro: <strong id="venda-preview-margem">0%</strong></span>
+              <span>✨ Esse valor será creditado no Caixa</span>
+            </div>
+          </div>
+
+          <div class="clean-form-group mt-12">
+            <label for="venda-observacoes">Anotações da Venda (Opcional):</label>
+            <input type="text" id="venda-observacoes" class="clean-input" placeholder="Ex: Pagamento no Pix, entregue em mãos">
+          </div>
+        </div>
+
+        <div class="modal-footer-clean">
+          <button type="button" class="btn-clean-white" onclick="fecharModais()">Cancelar</button>
+          <button type="submit" class="btn-green-solid">Confirmar Venda e Creditar Lucro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: APORTE MANUAL CUSTOMIZADO -->
+  <div id="modal-aporte" class="modal-overlay hidden">
+    <div class="clean-modal-card modal-sm">
+      <div class="modal-header-clean">
+        <h3 class="modal-title">Injetar Dinheiro no Caixa</h3>
+        <button class="modal-close-btn" onclick="fecharModais()">&times;</button>
+      </div>
+      <form id="form-aporte">
+        <div class="modal-body-clean">
+          <div class="clean-form-group">
+            <label for="aporte-valor">Valor do Aporte (R$): *</label>
+            <input type="number" id="aporte-valor" class="clean-input font-bold text-green text-lg" placeholder="300.00" step="0.01" required>
+          </div>
+          <div class="clean-form-group">
+            <label for="aporte-desc">Descrição / Origem:</label>
+            <input type="text" id="aporte-desc" class="clean-input" placeholder="Ex: Aporte Salário Outubro">
+          </div>
+          <div class="clean-form-group">
+            <label for="aporte-data">Data:</label>
+            <input type="date" id="aporte-data" class="clean-input" required>
+          </div>
+        </div>
+        <div class="modal-footer-clean">
+          <button type="button" class="btn-clean-white" onclick="fecharModais()">Cancelar</button>
+          <button type="submit" class="btn-green-solid">Adicionar ao Caixa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: RETIRADA DE CAIXA -->
+  <div id="modal-retirada" class="modal-overlay hidden">
+    <div class="clean-modal-card modal-sm">
+      <div class="modal-header-clean">
+        <h3 class="modal-title">Retirar Dinheiro do Caixa</h3>
+        <button class="modal-close-btn" onclick="fecharModais()">&times;</button>
+      </div>
+      <form id="form-retirada">
+        <div class="modal-body-clean">
+          <div class="clean-form-group">
+            <label for="retirada-valor">Valor da Retirada (R$): *</label>
+            <input type="number" id="retirada-valor" class="clean-input font-bold text-danger text-lg" placeholder="100.00" step="0.01" required>
+          </div>
+          <div class="clean-form-group">
+            <label for="retirada-tipo">Tipo de Operação:</label>
+            <select id="retirada-tipo" class="clean-select">
+              <option value="retirada">Retirada de Lucro / Pró-labore Pessoal</option>
+              <option value="custo_extra">Despesa Geral (Transporte, Frete, Embalagem)</option>
+            </select>
+          </div>
+          <div class="clean-form-group">
+            <label for="retirada-desc">Motivo / Descrição:</label>
+            <input type="text" id="retirada-desc" class="clean-input" placeholder="Ex: Retirada de lucro pessoal">
+          </div>
+          <div class="clean-form-group">
+            <label for="retirada-data">Data:</label>
+            <input type="date" id="retirada-data" class="clean-input" required>
+          </div>
+        </div>
+        <div class="modal-footer-clean">
+          <button type="button" class="btn-clean-white" onclick="fecharModais()">Cancelar</button>
+          <button type="submit" class="btn-clean-danger">Confirmar Saída</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: DETALHES / EDITAR ITEM -->
+  <div id="modal-detalhes-item" class="modal-overlay hidden">
+    <div class="clean-modal-card">
+      <div class="modal-header-clean">
+        <h3 class="modal-title">Detalhes do Brique</h3>
+        <button class="modal-close-btn" onclick="fecharModais()">&times;</button>
+      </div>
+      <form id="form-editar-item">
+        <input type="hidden" id="edit-item-id">
+        <div class="modal-body-clean">
+          <div class="clean-form-group">
+            <label for="edit-nome">Aparelho / Modelo:</label>
+            <input type="text" id="edit-nome" class="clean-input" required>
+          </div>
+          <div class="clean-form-row">
+            <div class="clean-form-group col-6">
+              <label for="edit-categoria">Categoria:</label>
+              <select id="edit-categoria" class="clean-select">
+                <option value="Celular / Smartphone">Celular / Smartphone</option>
+                <option value="Notebook / PC">Notebook / PC</option>
+                <option value="Tablet / iPad">Tablet / iPad</option>
+                <option value="Videogame / Console">Videogame / Console</option>
+                <option value="Smartwatch">Smartwatch</option>
+                <option value="Peças / Acessórios">Peças / Acessórios</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+            <div class="clean-form-group col-6">
+              <label for="edit-status">Status Atual:</label>
+              <select id="edit-status" class="clean-select">
+                <option value="Em Estoque">Em Estoque</option>
+                <option value="Em Manutenção">Em Manutenção/Revisão</option>
+                <option value="Anunciado">Anunciado</option>
+                <option value="Vendido">Vendido</option>
+              </select>
+            </div>
+          </div>
+          <div class="clean-form-group">
+            <label for="edit-custos-desc">Descrição de Peças / Gastos:</label>
+            <input type="text" id="edit-custos-desc" class="clean-input">
+          </div>
+          <div class="clean-form-group">
+            <label for="edit-observacoes">Observações:</label>
+            <textarea id="edit-observacoes" class="clean-input" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer-clean flex-between">
+          <button type="button" id="btn-excluir-item-modal" class="btn-clean-danger">Excluir Item</button>
+          <div class="modal-actions-right">
+            <button type="button" class="btn-clean-white" onclick="fecharModais()">Fechar</button>
+            <button type="submit" class="btn-green-solid">Salvar Alterações</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPT PRINCIPAL -->
+  <script src="js/app.js"></script>
+</body>
+</html>
